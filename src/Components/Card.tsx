@@ -39,7 +39,7 @@ const Card: FC<{ props: CardProps }> = ({ props: { musicNumber, setMusicNumber }
             <div className="controls">
                 <i className="material-icons">repeat</i>
 
-                <i className="material-icons">skip_previous</i>
+                <i className="material-icons" id="prev">skip_previous</i>
 
                 <div className="play">
                     <i className="material-icons">play_arrow</i>

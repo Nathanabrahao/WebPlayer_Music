@@ -6,16 +6,16 @@ import Songs from '../Assests/Data/infos';
 interface CardProps {
     musicNumber: number;
     setMusicNumber: React.Dispatch<React.SetStateAction<number>>;
+    setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const Card: FC<{ props: CardProps }> = ({ props: { musicNumber, setMusicNumber } }) => {
-    console.log(Songs)
+const Card: FC<{ props: CardProps }> = ({ props: { musicNumber, setMusicNumber, setOpen } }) => {
     return (
         <div className="card">
             <div className="nav">
                 <i className="material-icons">expand_more</i>
                 <span>Now Playing {musicNumber + 1}/{Songs.length} </span>
-                <i className="material-icons">queue_music</i>
+                <i className="material-icons" onClick={() => setOpen(true)}>queue_music</i>
             </div>
 
 
@@ -25,6 +25,7 @@ const Card: FC<{ props: CardProps }> = ({ props: { musicNumber, setMusicNumber }
 
             <div className="details">
                 <p className="title">{Songs[musicNumber].name}</p>
+                <p className="artist">{Songs[musicNumber].artist}</p>
             </div>
 
             <div className="progress">

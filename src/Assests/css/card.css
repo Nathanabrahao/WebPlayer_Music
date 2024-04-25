@@ -36,6 +36,11 @@
     font-size: 1.2rem;
 } 
 
+.card .details .artist{
+    color: #bbb;
+    padding-top: 1px;
+}
+
 .card .progress{
     margin-top: 15px;
 }

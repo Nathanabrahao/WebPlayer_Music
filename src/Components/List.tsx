@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import React, { useState, useEffect, FC } from "react";
 import '../Assests/css/list.css';
 import songs from '../Assests/Data/infos';
 
@@ -31,7 +31,7 @@ const List: FC<{ props: ListProps }> = ({ props: { open, setOpen, musicNumber, s
                                 <span>{music.name}</span>
                                 <p>{music.artist}</p>
                             </div>
-                            <span className="duration">03:32</span>
+                            <Duration music={music} />
                         </li>
                     ))
                 }
@@ -41,3 +41,16 @@ const List: FC<{ props: ListProps }> = ({ props: { open, setOpen, musicNumber, s
 }
 
 export default List;
+
+const Duration = ({music}:any) => {
+    const [duration, setDuration] = useState(0);
+
+    useEffect(() => {
+        const audio = new Audio(music.audio);
+        console.log(music)
+    }, [music]);
+
+    return (
+        <span className="duration">03:32</span>
+    )
+}

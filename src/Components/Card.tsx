@@ -15,7 +15,7 @@ const Card: FC<{ props: CardProps }> = ({ props: { musicNumber, setMusicNumber, 
             <div className="nav">
                 <i className="material-icons">expand_more</i>
                 <span>Now Playing {musicNumber + 1}/{Songs.length} </span>
-                <i className="material-icons" onClick={() => setOpen(true)}>queue_music</i>
+                <i className="material-icons" onClick={() => setOpen(prev => !prev)}>queue_music</i>
             </div>
 
 

@@ -1,6 +1,7 @@
 import React, { useState, useEffect, FC } from "react";
 import '../Assests/css/list.css';
 import songs from '../Assests/Data/infos';
+import { timer } from "../utils/timer";
 
 interface ListProps {
     open: boolean;
@@ -47,10 +48,14 @@ const Duration = ({music}:any) => {
 
     useEffect(() => {
         const audio = new Audio(music.audio);
-        console.log(music)
+        audio.onloadedmetadata = function(){
+            if(audio.readyState > 0){
+                setDuration(audio.duration);
+            }
+        }
     }, [music]);
 
     return (
-        <span className="duration">03:32</span>
+        <span className="duration">{timer(duration)}</span>
     )
 }

@@ -1,7 +1,8 @@
-import React, { FC } from "react";
+import React, { FC, useState } from "react";
 import App from "../App";
 import '../Assests/css/card.css';
 import Songs from '../Assests/Data/infos';
+import { timer } from "../utils/timer";
 
 interface CardProps {
     musicNumber: number;
@@ -10,6 +11,18 @@ interface CardProps {
 }
 
 const Card: FC<{ props: CardProps }> = ({ props: { musicNumber, setMusicNumber, setOpen } }) => {
+    const [duration, setDuration] = useState(0);
+
+    function handleLoadStart(e: React.SyntheticEvent<HTMLAudioElement, Event>) {
+        const src: string = e.currentTarget.src;
+        const audio = new Audio(src);
+        audio.onloadedmetadata = function(){
+            if(audio.readyState > 0){
+                setDuration(audio.duration)
+            }
+        }
+    }
+
     return (
         <div className="card">
             <div className="nav">
@@ -34,7 +47,7 @@ const Card: FC<{ props: CardProps }> = ({ props: { musicNumber, setMusicNumber, 
 
             <div className="timer">
                 <span>00:00</span>
-                <span>03:16</span>
+                <span>{timer(duration)}</span>
             </div>
 
             <div className="controls">
@@ -59,7 +72,8 @@ const Card: FC<{ props: CardProps }> = ({ props: { musicNumber, setMusicNumber, 
             </div>
 
 
-            <audio src={Songs[musicNumber].audio} hidden></audio>
+            <audio src={Songs[musicNumber].audio} hidden
+            onLoadStart={handleLoadStart}></audio>
 
         </div>
     );

@@ -50,7 +50,27 @@ const Card: FC<{ props: CardProps }> = ({ props: { musicNumber, setMusicNumber, 
         }
     }
 
-    
+    function handleNextPrev(e: any) {
+        if (audioRef.current) {
+            if (play) {
+                audioRef.current.pause();
+                setPlay(false);
+            }
+            if (e === -1) {
+                if (musicNumber === 0) {
+                    setMusicNumber(Songs.length - 1);
+                } else {
+                    setMusicNumber(musicNumber - 1);
+                }
+            } else {
+                if (musicNumber === Songs.length - 1) {
+                    setMusicNumber(0);
+                } else {
+                    setMusicNumber(musicNumber + 1);
+                }
+            }
+        }
+    }
 
     return (
         <div className="card">
@@ -83,7 +103,8 @@ const Card: FC<{ props: CardProps }> = ({ props: { musicNumber, setMusicNumber, 
             <div className="controls">
                 <i className="material-icons">repeat</i>
 
-                <i className="material-icons" id="prev">skip_previous</i>
+                <i className="material-icons" id="prev"
+                onClick={() => handleNextPrev(-1)}>skip_previous</i>
 
                 <div className="play" onClick={handlePlayingAudio}>
                     <i className="material-icons">
@@ -91,7 +112,8 @@ const Card: FC<{ props: CardProps }> = ({ props: { musicNumber, setMusicNumber, 
                     </i>
                 </div>
 
-                <i className="material-icons" id="next">skip_next</i>
+                <i className="material-icons" id="next"
+                onClick={() => handleNextPrev(1)}>skip_next</i>
 
                 <i className="material-icons">volume_up</i>
 

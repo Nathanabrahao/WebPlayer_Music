@@ -1,4 +1,4 @@
-import React, { FC, useState } from "react";
+import React, { FC, useState, useRef, useEffect } from "react";
 import App from "../App";
 import '../Assests/css/card.css';
 import Songs from '../Assests/Data/infos';
@@ -11,17 +11,34 @@ interface CardProps {
 }
 
 const Card: FC<{ props: CardProps }> = ({ props: { musicNumber, setMusicNumber, setOpen } }) => {
-    const [duration, setDuration] = useState(0);
+    const [duration, setDuration] = useState(1);
+    const [currentTime, setCurrentTime] = useState(0);
+    const [play, setPlay] = useState(false);
+
+    const audioRef = useRef<HTMLAudioElement | null>(null);
+
 
     function handleLoadStart(e: React.SyntheticEvent<HTMLAudioElement, Event>) {
         const src: string = e.currentTarget.src;
         const audio = new Audio(src);
-        audio.onloadedmetadata = function(){
-            if(audio.readyState > 0){
+        audio.onloadedmetadata = function () {
+            if (audio.readyState > 0) {
                 setDuration(audio.duration)
             }
         }
     }
+
+    function handlePlayingAudio() {
+        if (play && audioRef.current) {
+            audioRef.current.pause();
+            setPlay(false);
+        } else if (audioRef.current) {
+            audioRef.current.play();
+            setPlay(true);
+        }
+    }
+    
+    
 
     return (
         <div className="card">
@@ -46,7 +63,7 @@ const Card: FC<{ props: CardProps }> = ({ props: { musicNumber, setMusicNumber, 
             </div>
 
             <div className="timer">
-                <span>00:00</span>
+                <span>{timer(currentTime)}</span>
                 <span>{timer(duration)}</span>
             </div>
 
@@ -55,8 +72,10 @@ const Card: FC<{ props: CardProps }> = ({ props: { musicNumber, setMusicNumber, 
 
                 <i className="material-icons" id="prev">skip_previous</i>
 
-                <div className="play">
-                    <i className="material-icons">play_arrow</i>
+                <div className="play" onClick={handlePlayingAudio}>
+                    <i className="material-icons">
+                        {play ? "pause" : "play_arrow"}
+                    </i>
                 </div>
 
                 <i className="material-icons" id="next">skip_next</i>
@@ -72,8 +91,8 @@ const Card: FC<{ props: CardProps }> = ({ props: { musicNumber, setMusicNumber, 
             </div>
 
 
-            <audio src={Songs[musicNumber].audio} hidden
-            onLoadStart={handleLoadStart}></audio>
+            <audio src={Songs[musicNumber].audio} hidden ref={audioRef}
+                onLoadStart={handleLoadStart}></audio>
 
         </div>
     );

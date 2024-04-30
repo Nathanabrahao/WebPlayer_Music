@@ -38,6 +38,18 @@ const Card: FC<{ props: CardProps }> = ({ props: { musicNumber, setMusicNumber, 
         }
     }
     
+    function handleTimeUpdate() {
+        if (audioRef.current) {
+            setCurrentTime(audioRef.current.currentTime);
+        }
+    }
+
+    function changeCurrentTime(e: any){
+        if (audioRef.current) {
+            audioRef.current.currentTime = Number(e.target.value);
+        }
+    }
+
     
 
     return (
@@ -59,7 +71,8 @@ const Card: FC<{ props: CardProps }> = ({ props: { musicNumber, setMusicNumber, 
             </div>
 
             <div className="progress">
-                <input type="range" min={0} max={100} />
+                <input type="range" min={0} max={duration} 
+                value={currentTime} onChange={e => changeCurrentTime(e)} />
             </div>
 
             <div className="timer">
@@ -92,7 +105,7 @@ const Card: FC<{ props: CardProps }> = ({ props: { musicNumber, setMusicNumber, 
 
 
             <audio src={Songs[musicNumber].audio} hidden ref={audioRef}
-                onLoadStart={handleLoadStart}></audio>
+                onLoadStart={handleLoadStart} onTimeUpdate={handleTimeUpdate}></audio>
 
         </div>
     );

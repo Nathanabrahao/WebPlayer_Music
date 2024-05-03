@@ -14,9 +14,13 @@ const Card: FC<{ props: CardProps }> = ({ props: { musicNumber, setMusicNumber, 
     const [duration, setDuration] = useState(1);
     const [currentTime, setCurrentTime] = useState(0);
     const [play, setPlay] = useState(false);
+    const [lyricsOpen, setLyricsOpen] = useState(false)
 
     const audioRef = useRef<HTMLAudioElement | null>(null);
 
+    const handleMicIconClick = () => {
+        setLyricsOpen(prevState => !prevState);
+    };
 
     function handleLoadStart(e: React.SyntheticEvent<HTMLAudioElement, Event>) {
         const src: string = e.currentTarget.src;
@@ -75,7 +79,7 @@ const Card: FC<{ props: CardProps }> = ({ props: { musicNumber, setMusicNumber, 
     return (
         <div className="card">
             <div className="nav">
-                <i className="material-icons">expand_more</i>
+                <i className="material-icons" onClick={handleMicIconClick}>mic</i>
                 <span>Now Playing {musicNumber + 1}/{Songs.length} </span>
                 <i className="material-icons" onClick={() => setOpen(prev => !prev)}>queue_music</i>
             </div>
@@ -115,7 +119,7 @@ const Card: FC<{ props: CardProps }> = ({ props: { musicNumber, setMusicNumber, 
                 <i className="material-icons" id="next"
                 onClick={() => handleNextPrev(1)}>skip_next</i>
 
-                <i className="material-icons">volume_up</i>
+                <i className="material-icons">shuffle</i>
 
                 <div className="volume">
                     <i className="material-icons">volume_up</i>

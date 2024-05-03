@@ -3,7 +3,7 @@ import logo from './logo.svg';
 import './App.css';
 import Card from './Components/Card'
 import List from './Components/List'
-
+import Lyrics from './Components/Lyrics'
 
 function App() {
   const [musicNumber, setMusicNumber] = useState(0);
